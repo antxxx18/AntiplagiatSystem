@@ -4,8 +4,7 @@
 from Algorithm import trigonometry
 from ParseFiles import normalizetext
 
-
-def anti(arg1, arg2):
+def main(arg1, arg2):
     dataBase = database.DataBase()
     #main_vect = vector.get_vect(arg1) #arg1 - checking document
     main_vect = dataBase.get_vect(arg1)
