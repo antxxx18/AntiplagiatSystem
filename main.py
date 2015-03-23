@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-import database
 from Algorithm import trigonometry
 from ParseFiles import normalizetext
 
