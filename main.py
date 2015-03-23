@@ -2,9 +2,9 @@
 # -*- coding:utf-8 -*-
 
 import database
-import trigonometry
-import vector
-import normalizetext
+from Algorithm import trigonometry
+from ParseFiles import normalizetext
+
 
 def anti(arg1, arg2):
     dataBase = database.DataBase()

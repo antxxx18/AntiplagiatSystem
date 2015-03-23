@@ -2,12 +2,13 @@
 # -*- coding:utf-8 -*-
 ###
 
-from docx import Document
-import ukstemmer
-import prepositions
 import os
-import doctotxt
 import codecs
+
+from docx import Document
+from Algorithm import ukstemmer, prepositions
+from ParseFiles import doctotxt
+
 
 class Text():
     def create_vector(self, line):

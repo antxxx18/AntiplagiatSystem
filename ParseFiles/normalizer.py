@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-import normalizetext
-import database
 import sys
+
+from ParseFiles import normalizetext
+import database
 import antiplagiarism
-import vector
-import os
+
 
 dataBase = database.DataBase()
 
