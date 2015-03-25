@@ -11,7 +11,7 @@ from docx import Document
 class Text():
 
     def doc_to_txt(self, filename):
-        os.system('antiword -m cp866.txt ' + filename + '.doc > ' + filename + '.txt')
+        os.system('antiword ' + filename + '.doc > ' + filename + '.txt')
         return filename + '.txt'
 
     def init_txt(self, filename):
