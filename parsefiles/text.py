@@ -23,7 +23,7 @@ class Text():
     def init_docx(self, filename):
         docx = Document(filename)
         for paragraph in docx.paragraphs:
-            self.data = paragraph.text
+            self.data += paragraph.text
 
     def __init__(self, filename):
         self.data = ""
