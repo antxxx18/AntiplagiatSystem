@@ -5,7 +5,6 @@ import re
 import requests
 import os
 
-
 def grouper(iterable, n, fillvalue=None):
     """Collect data into fixed-length chunks or blocks.
 
@@ -54,7 +53,6 @@ def chunk_it(seq, num):
 
     return out
 
-
 def random_words(n=100, wordlength=range(10, 15)):
     """Read a random english wiki article and extract some words.
 
@@ -75,6 +73,9 @@ def random_words(n=100, wordlength=range(10, 15)):
 
 def get_some_words(n=100):
     """Get some words. How the fuck know where we get them from."""
+
+    words = []
+
     if os.path.exists('/usr/share/dict/words'):
         words = open('/usr/share/dict/words').read().splitlines()
         if n < len(words):
@@ -84,8 +85,6 @@ def get_some_words(n=100):
 
     return words
 
-
 if __name__ == '__main__':
     import doctest
-
     doctest.testmod()

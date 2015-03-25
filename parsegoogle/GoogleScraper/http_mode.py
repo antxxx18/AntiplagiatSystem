@@ -9,7 +9,7 @@ import socket
 from urllib.parse import urlencode
 
 import GoogleScraper.socks as socks
-from GoogleScraper.scraping import SearchEngineScrape, get_base_search_url_by_search_engine
+from GoogleScraper.scraping import SearchEngineScrape, get_base_search_url_by_search_engine, StopScrapingException
 from GoogleScraper.parsing import get_parser_by_search_engine
 from GoogleScraper.config import Config
 from GoogleScraper.log import out
@@ -18,15 +18,13 @@ from GoogleScraper.user_agents import user_agents
 logger = logging.getLogger('GoogleScraper')
 
 headers = {
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-    'Accept-Language': 'en-US,en;q=0.5',
-    'Accept-Encoding': 'gzip, deflate',
-    'Connection': 'keep-alive',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Accept-Encoding': 'gzip, deflate',
+            'Connection': 'keep-alive',
 }
 
-
-def get_GET_params_for_search_engine(query, search_engine, page_number=1, num_results_per_page=10,
-                                     search_type='normal'):
+def get_GET_params_for_search_engine(query, search_engine, page_number=1, num_results_per_page=10, search_type='normal'):
     """Returns the params of the url for the search engine and the search mode.
 
     Args:
@@ -39,7 +37,7 @@ def get_GET_params_for_search_engine(query, search_engine, page_number=1, num_re
     Returns:
         The params for the GET url.
     """
-
+    
     search_params = {}
 
     if search_engine == 'google':
@@ -82,11 +80,10 @@ def get_GET_params_for_search_engine(query, search_engine, page_number=1, num_re
     elif search_engine == 'yandex':
         search_params['text'] = query
         if page_number > 1:
-            search_params['p'] = str(page_number - 1)
+            search_params['p'] = str(page_number-1)
 
-        # @todo: what was this for?
-        # if search_type == 'image':
-        #     base_search_url = 'http://yandex.ru/images/search?'
+        if search_type == 'image':
+            base_search_url = 'http://yandex.ru/images/search?'
 
     elif search_engine == 'bing':
         search_params['q'] = query
@@ -143,11 +140,11 @@ class HttpScrape(SearchEngineScrape, threading.Timer):
         """
         threading.Timer.__init__(self, time_offset, self.search)
         SearchEngineScrape.__init__(self, *args, **kwargs)
-
+        
         # Bind the requests module to this instance such that each 
         # instance may have an own proxy
         self.requests = __import__('requests')
-
+        
         # initialize the GET parameters for the search request
         self.search_params = {}
 
@@ -168,13 +165,13 @@ class HttpScrape(SearchEngineScrape, threading.Timer):
             logger.critical('blekko doesnt support http mode.')
             self.startable = False
 
+
     def set_proxy(self):
         """Setup a socks connection for the socks module bound to this instance.
 
         Args:
             proxy: Namedtuple, Proxy to use for this thread.
         """
-
         def create_connection(address, timeout=None, source_address=None):
             sock = socks.socksocket()
             sock.connect(address)
@@ -194,9 +191,8 @@ class HttpScrape(SearchEngineScrape, threading.Timer):
     def switch_proxy(self, proxy):
         super().switch_proxy()
 
-    def proxy_check(self, proxy):
-        assert self.proxy and self.requests, 'ScraperWorker needs valid proxy instance and requests library to make ' \
-                                             'the proxy check.'
+    def proxy_check(self):
+        assert self.proxy and self.requests, 'ScraperWorker needs valid proxy instance and requests library to make the proxy check.'
 
         online = False
         status = 'Proxy check failed: {host}:{port} is not used while requesting'.format(**self.proxy.__dict__)
@@ -206,7 +202,7 @@ class HttpScrape(SearchEngineScrape, threading.Timer):
             text = self.requests.get(Config['GLOBAL'].get('proxy_info_url')).text
             try:
                 ipinfo = json.loads(text)
-            except ValueError:
+            except ValueError as v:
                 pass
         except self.requests.ConnectionError as e:
             status = 'No connection to proxy server possible, aborting: {}'.format(e)
@@ -224,6 +220,7 @@ class HttpScrape(SearchEngineScrape, threading.Timer):
         super().update_proxy_status(status, ipinfo, online)
 
         return online
+
 
     def handle_request_denied(self, status_code=''):
         """Handle request denied by the search engine.
@@ -268,7 +265,7 @@ class HttpScrape(SearchEngineScrape, threading.Timer):
             super().keyword_info()
 
             request = self.requests.get(self.base_search_url + urlencode(self.search_params),
-                                        headers=self.headers, timeout=timeout)
+                                                                headers=self.headers, timeout=timeout)
 
             self.requested_at = datetime.datetime.utcnow()
             self.html = request.text
@@ -277,7 +274,7 @@ class HttpScrape(SearchEngineScrape, threading.Timer):
                 url=request.url,
                 headers=self.headers,
                 params=self.search_params),
-                lvl=3)
+            lvl=3)
 
         except self.requests.ConnectionError as ce:
             self.status = 'Network problem occurred {}'.format(ce)
@@ -289,10 +286,10 @@ class HttpScrape(SearchEngineScrape, threading.Timer):
             # In case of any http networking exception that wasn't caught
             # in the actual request, just end the worker.
             self.status = 'Stopping scraping because {}'.format(e)
-        else:
-            if not request.ok:
-                self.handle_request_denied(request.status_code)
-                success = False
+
+        if not request.ok:
+            self.handle_request_denied(request.status_code)
+            success = False
 
         super().after_search()
 
