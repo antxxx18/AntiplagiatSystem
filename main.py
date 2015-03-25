@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-from parseFiles import text
-from createVector import create_vector
+from parsefiles import text
+from vector import create_vector
 import sys
 
 
