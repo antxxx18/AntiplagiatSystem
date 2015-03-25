@@ -6,6 +6,8 @@
       <option name="ignoredIdentifiers">
         <list>
           <option value="parsegoogle.parse.ModGoogleScraper" />
+          <option value="parsegoogle.parse.GoogleScraper" />
+          <option value="GoogleScraper" />
         </list>
       </option>
     </inspection_tool>

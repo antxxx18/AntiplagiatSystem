@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 
 from parsefiles import text
+from parsegoogle.parse import parse
 from vector import create_vector
 import sys
 
@@ -12,6 +13,7 @@ main_vector = res[0]
 query_list = res[1]
 print(main_vector)
 print(query_list)
+parse(query_list)
 
 """
     max_coef = 0
