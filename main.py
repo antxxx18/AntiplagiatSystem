@@ -13,7 +13,7 @@ main_vector = res[0]
 query_list = res[1]
 print(main_vector)
 print(query_list)
-parse(query_list)
+#parse(query_list)
 
 """
     max_coef = 0

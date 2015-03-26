@@ -23,7 +23,7 @@ def parse(keywords):
 
             #'check_proxies': 'True',
             'scrape_method': 'http',
-            'num_workers': 10,
+            'num_workers': 1000,
         },
         'SELENIUM': {
             'sel_browser': 'chrome',
