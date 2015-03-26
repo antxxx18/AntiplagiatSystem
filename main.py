@@ -6,14 +6,22 @@ from parsegoogle.parse import parse
 from vector import create_vector
 import sys
 
+num_words = 8
 
 t = text.Text(sys.argv[1])
 res = create_vector.transform_to_vector(t.data, 1)
 main_vector = res[0]
-query_list = res[1]
+query_line = res[1]
 print(main_vector)
-print(query_list)
-#parse(query_list)
+print(query_line)
+i = 0
+query = [[]]
+for word in query_line:
+    if i > num_words:
+        query = query[1:].append(word)
+        parse(query)
+    else:
+        query[0].append(word)
 
 """
     max_coef = 0

@@ -7,7 +7,7 @@ import re
 def ukstemmer_search_preprocess(word):
      word = word.lower()
      word = word.replace("?", "і")
-     word = re.sub(r'(-|\[pic\]|\.|,)', "", word)
+     word = re.sub(r'(-|\[pic\]|\.|,|\?)', "", word)
      word = re.sub(r'(^(?![а-я]|[a-z]).*)', "", word)
      word = word.replace("ё", "е")
      word = word.replace("ъ", "ї")
