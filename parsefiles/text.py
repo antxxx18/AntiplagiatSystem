@@ -13,7 +13,7 @@ class Text():
         return filename + '.txt'
 
     def doc_to_txt(self, filename):
-        os.system('antiword ' + filename + '.doc > ' + filename + '.txt')
+        os.system('wvText ' + filename + '.doc ' + filename + '.txt')
         return filename + '.txt'
 
     def init_txt(self, filename):
