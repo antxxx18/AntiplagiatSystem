@@ -4,6 +4,7 @@ import operator
 
 num_queries = 8
 
+# FIX ME
 def to_str(keywords):
     str = ''
     i = num_queries
@@ -40,7 +41,7 @@ def parse(keywords):
         },
         'GLOBAL': {
             'verbosity': 1,
-            'do_caching': 'True',
+            'do_caching': 'False',
             #'proxy_file': 'parsegoogle/proxy.txt',
         },
         'OUTPUT': {

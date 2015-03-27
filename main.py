@@ -7,6 +7,7 @@ from parsegoogle.parse import parse
 from vector import create_vector
 import sys
 
+# FIX
 num_words = 7
 
 startTime = datetime.now()
