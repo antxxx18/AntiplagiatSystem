@@ -7,8 +7,10 @@ def parse(keywords):
     startTime = datetime.now()
     # FIX THIS
     str = ''
-    for x in keywords:
-        str+=(x+'\n')
+    for query in keywords:
+        for word in query:
+            str += word + " "
+        str += '\n'
     # Make config fo scraping
     # FIX threads number
     config = {
@@ -30,7 +32,7 @@ def parse(keywords):
         },
         'GLOBAL': {
             'verbosity': 2,
-            'do_caching': 'False',
+            'do_caching': 'True',
             #'proxy_file': 'parsegoogle/proxy.txt',
         },
         'OUTPUT': {

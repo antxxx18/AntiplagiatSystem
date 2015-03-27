@@ -16,14 +16,15 @@ print(main_vector)
 print(query_line)
 i = 0
 query = [[]]
-"""
 for word in query_line:
     if i > num_words:
-        query = query[1:].append(word)
-        parse(query)
+        t = query[-1][1:]
+        t.append(word)
+        query.append(t)
     else:
         query[0].append(word)
-        """
+    i += 1
+parse(query)
 
 """
     max_coef = 0
