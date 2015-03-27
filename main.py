@@ -2,29 +2,22 @@
 # -*- coding:utf-8 -*-
 
 from parsefiles import text
+from datetime import datetime
 from parsegoogle.parse import parse
 from vector import create_vector
 import sys
 
-num_words = 8
-
+startTime = datetime.now()
 t = text.Text(sys.argv[1])
 res = create_vector.transform_to_vector(t.data, 1)
 main_vector = res[0]
-query_line = res[1]
+query_list = res[1]
+print('Main vector size: ' + str(len(main_vector)))
 print(main_vector)
-print(query_line)
-i = 0
-query = [[]]
-for word in query_line:
-    if i > num_words:
-        t = query[-1][1:]
-        t.append(word)
-        query.append(t)
-    else:
-        query[0].append(word)
-    i += 1
-parse(query)
+print('Query list size: ' + str(len(query_list)))
+print(query_list)
+parse(query_list)
+print(datetime.now() - startTime)
 
 """
     max_coef = 0

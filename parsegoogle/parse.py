@@ -1,16 +1,18 @@
 from GoogleScraper.core import scrape_with_config
 from GoogleScraper.scraping import GoogleSearchError
-from datetime import datetime
 import operator
 
-def parse(keywords):
-    startTime = datetime.now()
-    # FIX THIS
+def to_str(keywords):
     str = ''
     for query in keywords:
         for word in query:
-            str += word + " "
-        str += '\n'
+            str+=word+' '
+        str+='\n'
+    return str
+
+def parse(keywords):
+
+    str=to_str(keywords)
     # Make config fo scraping
     # FIX threads number
     config = {
@@ -31,7 +33,7 @@ def parse(keywords):
             'sel_browser': 'chrome',
         },
         'GLOBAL': {
-            'verbosity': 2,
+            'verbosity': 1,
             'do_caching': 'True',
             #'proxy_file': 'parsegoogle/proxy.txt',
         },
@@ -57,6 +59,7 @@ def parse(keywords):
 
     print(len(x))
     sorted_x = sorted(x.items(), key=operator.itemgetter(1), reverse=True)
+    i = 1
     for x in range(0, 5):
-        print(sorted_x[x])
-    print(datetime.now() - startTime)
+        print(str(i) + '.' + str(sorted_x[x]))
+        i += 1
