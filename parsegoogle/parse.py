@@ -2,12 +2,18 @@ from GoogleScraper.core import scrape_with_config
 from GoogleScraper.scraping import GoogleSearchError
 import operator
 
+num_queries = 8
+
 def to_str(keywords):
     str = ''
+    i = num_queries
     for query in keywords:
-        for word in query:
-            str+=word+' '
-        str+='\n'
+        if i == num_queries:
+            i = 0
+            for word in query:
+                str+=word+' '
+            str+='\n'
+        i += 1
     return str
 
 def parse(keywords):
