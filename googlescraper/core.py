@@ -7,19 +7,19 @@ import hashlib
 import os
 import logging
 import queue
-from GoogleScraper.commandline import get_command_line
-from GoogleScraper.database import ScraperSearch, SERP, Link, get_session, fixtures
-from GoogleScraper.proxies import parse_proxy_file, get_proxies_from_mysql_db, add_proxies_to_db
-from GoogleScraper.caching import fix_broken_cache_names, _caching_is_one_to_one, parse_all_cached_files, clean_cachefiles
-from GoogleScraper.config import InvalidConfigurationException, parse_cmd_args, Config, update_config_with_file
-from GoogleScraper.log import out, raise_or_log
-from GoogleScraper.scrape_jobs import default_scrape_jobs_for_keywords
-from GoogleScraper.scraping import ScrapeWorkerFactory, GoogleSearchError
-from GoogleScraper.output_converter import init_outfile
-from GoogleScraper.async_mode import AsyncScrapeScheduler
-import GoogleScraper.config
+from googlescraper.commandline import get_command_line
+from googlescraper.database import ScraperSearch, SERP, Link, get_session, fixtures
+from googlescraper.proxies import parse_proxy_file, get_proxies_from_mysql_db, add_proxies_to_db
+from googlescraper.caching import fix_broken_cache_names, _caching_is_one_to_one, parse_all_cached_files, clean_cachefiles
+from googlescraper.config import InvalidConfigurationException, parse_cmd_args, Config, update_config_with_file
+from googlescraper.log import out, raise_or_log
+from googlescraper.scrape_jobs import default_scrape_jobs_for_keywords
+from googlescraper.scraping import ScrapeWorkerFactory, GoogleSearchError
+from googlescraper.output_converter import init_outfile
+from googlescraper.async_mode import AsyncScrapeScheduler
+import googlescraper.config
 
-logger = logging.getLogger('GoogleScraper')
+logger = logging.getLogger('googlescraper')
 
 
 def id_for_keywords(keywords):
@@ -41,7 +41,7 @@ def id_for_keywords(keywords):
 
 
 def scrape_with_config(config, **kwargs):
-    """Runs GoogleScraper with the dict in config.
+    """Runs googlescraper with the dict in config.
 
     Args:
         config: A configuration dictionary that updates the global configuration.
@@ -50,15 +50,15 @@ def scrape_with_config(config, **kwargs):
     Returns:
         The result of the main() function. Is a scraper search object.
         In case you want to access the session, import it like this:
-        ```from GoogleScraper database import session```
+        ```from googlescraper database import session```
     """
     if not isinstance(config, dict):
         raise ValueError('The config parameter needs to be a configuration dictionary. Given parameter has type: {}'.format(type(config)))
 
-    # make exceptions from GoogleScraper catchable.
+    # make exceptions from googlescraper catchable.
     config['SCRAPING'].update({'raise_exceptions_while_scraping': True})
 
-    GoogleScraper.config.update_config(config)
+    googlescraper.config.update_config(config)
     return main(return_results=True, parse_cmd_line=False, **kwargs)
 
 
@@ -138,9 +138,9 @@ class ShowProgressQueue(threading.Thread):
 
 
 def main(return_results=False, parse_cmd_line=True):
-    """Runs the GoogleScraper application as determined by the various configuration points.
+    """Runs the googlescraper application as determined by the various configuration points.
 
-    The main() function encompasses the core functionality of GoogleScraper. But it
+    The main() function encompasses the core functionality of googlescraper. But it
     shouldn't be the main() functions job to check the validity of the provided
     configuration.
 
@@ -160,12 +160,12 @@ def main(return_results=False, parse_cmd_line=True):
         update_config_with_file(Config['GLOBAL'].get('config_file', None))
 
     if Config['GLOBAL'].getboolean('view_config'):
-        from GoogleScraper.config import CONFIG_FILE
+        from googlescraper.config import CONFIG_FILE
         print(open(CONFIG_FILE).read())
         return
 
     if Config['GLOBAL'].getboolean('version'):
-        from GoogleScraper.version import __version__
+        from googlescraper.version import __version__
         print(__version__)
         return
 
@@ -208,7 +208,7 @@ def main(return_results=False, parse_cmd_line=True):
         namespace['ScraperSearch'] = ScraperSearch
         namespace['SERP'] = SERP
         namespace['Link'] = Link
-        namespace['Proxy'] = GoogleScraper.database.Proxy
+        namespace['Proxy'] = googlescraper.database.Proxy
         print('Available objects:')
         print('session - A sqlalchemy session of the results database')
         print('ScraperSearch - Search/Scrape job instances')
@@ -281,7 +281,7 @@ def main(return_results=False, parse_cmd_line=True):
 
     if Config['GLOBAL'].getboolean('simulate', False):
         print('*' * 60 + 'SIMULATION' + '*' * 60)
-        logger.info('If GoogleScraper would have been run without the --simulate flag, it would have:')
+        logger.info('If googlescraper would have been run without the --simulate flag, it would have:')
         logger.info('Scraped for {} keywords, with {} results a page, in total {} pages for each keyword'.format(
             len(keywords), Config['SCRAPING'].getint('num_results_per_page', 0), Config['SCRAPING'].getint('num_pages_for_keyword')))
         if None in proxies:
@@ -427,7 +427,7 @@ def main(return_results=False, parse_cmd_line=True):
             progress_thread.join()
 
     # in the end, close the json file.
-    from GoogleScraper.output_converter import outfile, output_format
+    from googlescraper.output_converter import outfile, output_format
 
     if output_format == 'json':
         outfile.end()

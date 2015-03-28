@@ -7,15 +7,15 @@ import time
 import os
 import abc
 
-from GoogleScraper.proxies import Proxy
-from GoogleScraper.caching import cache_results
-from GoogleScraper.database import db_Proxy
-from GoogleScraper.config import Config
-from GoogleScraper.log import out, raise_or_log
-from GoogleScraper.output_converter import store_serp_result
-from GoogleScraper.parsing import get_parser_by_search_engine, parse_serp
+from googlescraper.proxies import Proxy
+from googlescraper.caching import cache_results
+from googlescraper.database import db_Proxy
+from googlescraper.config import Config
+from googlescraper.log import out, raise_or_log
+from googlescraper.output_converter import store_serp_result
+from googlescraper.parsing import get_parser_by_search_engine, parse_serp
 
-logger = logging.getLogger('GoogleScraper')
+logger = logging.getLogger('googlescraper')
 
 SEARCH_MODES = ('http', 'selenium', 'http-async')
 
@@ -45,7 +45,7 @@ class StopScrapingException(Exception):
 
 
 """
-GoogleScraper should be as robust as possible.
+googlescraper should be as robust as possible.
 
 There are several conditions that may stop the scraping process. In such a case,
 a StopScrapingException is raised with the reason.
@@ -401,8 +401,8 @@ class SearchEngineScrape(metaclass=abc.ABCMeta):
                 self.session.commit()
 
 
-from GoogleScraper.http_mode import HttpScrape
-from GoogleScraper.selenium_mode import get_selenium_scraper_by_search_engine_name
+from googlescraper.http_mode import HttpScrape
+from googlescraper.selenium_mode import get_selenium_scraper_by_search_engine_name
 
 class ScrapeWorkerFactory():
     def __init__(self, mode=None, proxy=None, search_engine=None, session=None, db_lock=None,

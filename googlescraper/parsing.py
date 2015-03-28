@@ -8,12 +8,12 @@ from lxml.html.clean import Cleaner
 import logging
 from urllib.parse import urlparse, unquote
 import pprint
-from GoogleScraper.database import SearchEngineResultsPage, Link
-from GoogleScraper.config import Config
-from GoogleScraper.log import out
+from googlescraper.database import SearchEngineResultsPage, Link
+from googlescraper.config import Config
+from googlescraper.log import out
 from cssselect import HTMLTranslator
 
-logger = logging.getLogger('GoogleScraper')
+logger = logging.getLogger('googlescraper')
 
 class InvalidSearchTypeException(Exception):
     pass
@@ -1007,15 +1007,15 @@ def parse_serp(html=None, parser=None, scraper=None, search_engine=None, query='
         return serp
 
 if __name__ == '__main__':
-    """Originally part of https://github.com/NikolaiT/GoogleScraper.
+    """Originally part of https://github.com/NikolaiT/googlescraper.
     
     Only for testing purposes: May be called directly with an search engine 
     search url. For example:
     
-    python3 parsing.py 'http://yandex.ru/yandsearch?text=GoogleScraper&lr=178&csg=82%2C4317%2C20%2C20%2C0%2C0%2C0'
+    python3 parsing.py 'http://yandex.ru/yandsearch?text=googlescraper&lr=178&csg=82%2C4317%2C20%2C20%2C0%2C0%2C0'
     
     Please note: Using this module directly makes little sense, because requesting such urls
-    directly without imitating a real browser (which is done in my GoogleScraper module) makes
+    directly without imitating a real browser (which is done in my googlescraper module) makes
     the search engines return crippled html, which makes it impossible to parse.
     But for some engines it nevertheless works (for example: yandex, google, ...).
     """

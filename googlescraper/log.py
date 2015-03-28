@@ -2,11 +2,11 @@
 
 import sys
 import logging
-from GoogleScraper.config import Config
+from googlescraper.config import Config
 
 def setup_logger(level=logging.INFO):
-        """Setup the global configuration logger for GoogleScraper"""
-        logger = logging.getLogger('GoogleScraper')
+        """Setup the global configuration logger for googlescraper"""
+        logger = logging.getLogger('googlescraper')
         logger.setLevel(level)
 
         ch = logging.StreamHandler(stream=sys.stderr)
@@ -17,7 +17,7 @@ def setup_logger(level=logging.INFO):
         logger.addHandler(ch)
 
 
-logger = logging.getLogger('GoogleScraper')
+logger = logging.getLogger('googlescraper')
 
 def out(msg, lvl=2):
     level = Config['GLOBAL'].getint('verbosity', 2)

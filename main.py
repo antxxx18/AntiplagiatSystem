@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-from parsefiles import text
+from filesparse import text
 from datetime import datetime
-from parsegoogle.parse import parse
+from searchengineparse.parse import parse
 from vector import create_vector
 import sys
 

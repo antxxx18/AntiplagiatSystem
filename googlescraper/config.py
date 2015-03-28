@@ -4,11 +4,11 @@ import os
 import configparser
 import logging
 
-from GoogleScraper.commandline import get_command_line
+from googlescraper.commandline import get_command_line
 
 CONFIG_FILE = os.path.join(os.path.dirname(__file__), 'config.cfg')
 already_parsed = False
-logger = logging.getLogger('GoogleScraper')
+logger = logging.getLogger('googlescraper')
 
 Config = {
     'SCRAPING': {
@@ -49,7 +49,7 @@ class InvalidConfigurationException(Exception):
 def parse_config(parse_command_line=True):
     """Parse and normalize the config file and return a dictionary with the arguments.
 
-    There are several places where GoogleScraper can be configured. The configuration is
+    There are several places where googlescraper can be configured. The configuration is
     determined (in this order, a key/value pair emerging further down the list overwrites earlier occurrences)
     from the following places:
       - Program internal configuration found in the global variable Config in this file
@@ -128,7 +128,7 @@ def parse_cmd_args():
     update_config(get_command_line(), Config)
 
 def get_config(force_reload=False, parse_command_line=True):
-    """Returns the GoogleScraper configuration.
+    """Returns the googlescraper configuration.
 
     Args:
         force_reload: If true, ignores the flag already_parsed

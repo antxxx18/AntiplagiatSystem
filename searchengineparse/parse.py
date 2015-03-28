@@ -1,10 +1,10 @@
-from GoogleScraper.core import scrape_with_config
-from GoogleScraper.scraping import GoogleSearchError
+from googlescraper.core import scrape_with_config
+from googlescraper.scraping import GoogleSearchError
 import operator
 
 num_queries = 8
 
-# FIX ME
+# FIX ME PLEASE
 def to_str(keywords):
     str = ''
     i = num_queries
@@ -34,15 +34,15 @@ def parse(keywords):
 
             #'check_proxies': 'True',
             'scrape_method': 'http',
-            'num_workers': 1000,
+            'num_workers': 100,
         },
         'SELENIUM': {
-            'sel_browser': 'chrome',
+            'sel_browser': 'phantomjs',
         },
         'GLOBAL': {
             'verbosity': 1,
             'do_caching': 'False',
-            #'proxy_file': 'parsegoogle/proxy.txt',
+            #'proxy_file': 'searchengineparse/proxy.txt',
         },
         'OUTPUT': {
             'output_filename': 'out.json',
@@ -68,5 +68,5 @@ def parse(keywords):
     sorted_x = sorted(x.items(), key=operator.itemgetter(1), reverse=True)
     i = 1
     for x in range(0, 5):
-        print(str(i) + '.' + str(sorted_x[x]))
+        print("%d. %s"%(i,sorted_x[x]))
         i += 1

@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
 """
-The database schema of GoogleScraper.
+The database schema of googlescraper.
 
 There are four entities:
 
-    ScraperSearch: Represents a call to GoogleScraper. A search job.
+    ScraperSearch: Represents a call to googlescraper. A search job.
     SearchEngineResultsPage: Represents a SERP result page of a search_engine
     Link: Represents a LINK on a SERP
     Proxy: Stores all proxies and their statuses.
@@ -15,7 +15,7 @@ can be assigned to more than one ScraperSearch. Therefore we need a n:m relation
 """
 
 import datetime
-from GoogleScraper.config import Config
+from googlescraper.config import Config
 from urllib.parse import urlparse
 from sqlalchemy import Column, String, Integer, ForeignKey, Table, DateTime, Enum, Boolean
 from sqlalchemy.ext.declarative import declarative_base

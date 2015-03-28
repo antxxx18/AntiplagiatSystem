@@ -23,12 +23,12 @@ except ImportError as ie:
     print(ie)
     sys.exit('You can install missing modules with `pip3 install [modulename]`')
 
-from GoogleScraper.config import Config
-from GoogleScraper.log import out, raise_or_log
-from GoogleScraper.scraping import SearchEngineScrape, SeleniumSearchError, SeleniumMisconfigurationError, get_base_search_url_by_search_engine, MaliciousRequestDetected
-from GoogleScraper.user_agents import random_user_agent
+from googlescraper.config import Config
+from googlescraper.log import out, raise_or_log
+from googlescraper.scraping import SearchEngineScrape, SeleniumSearchError, SeleniumMisconfigurationError, get_base_search_url_by_search_engine, MaliciousRequestDetected
+from googlescraper.user_agents import random_user_agent
 
-logger = logging.getLogger('GoogleScraper')
+logger = logging.getLogger('googlescraper')
 
 
 def get_selenium_scraper_by_search_engine_name(search_engine_name, *args, **kwargs):

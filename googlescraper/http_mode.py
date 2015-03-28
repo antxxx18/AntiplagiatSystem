@@ -8,14 +8,14 @@ import logging
 import socket
 from urllib.parse import urlencode
 
-import GoogleScraper.socks as socks
-from GoogleScraper.scraping import SearchEngineScrape, get_base_search_url_by_search_engine, StopScrapingException
-from GoogleScraper.parsing import get_parser_by_search_engine
-from GoogleScraper.config import Config
-from GoogleScraper.log import out
-from GoogleScraper.user_agents import user_agents
+import googlescraper.socks as socks
+from googlescraper.scraping import SearchEngineScrape, get_base_search_url_by_search_engine, StopScrapingException
+from googlescraper.parsing import get_parser_by_search_engine
+from googlescraper.config import Config
+from googlescraper.log import out
+from googlescraper.user_agents import user_agents
 
-logger = logging.getLogger('GoogleScraper')
+logger = logging.getLogger('googlescraper')
 
 headers = {
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',

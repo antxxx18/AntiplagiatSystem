@@ -5,12 +5,12 @@ import sys
 import os
 import json
 from pprint import pprint
-from GoogleScraper.config import Config
-from GoogleScraper.database import Link, SERP
+from googlescraper.config import Config
+from googlescraper.database import Link, SERP
 
 """Stores SERP results in the appropriate output format.
 
-Streamline process, one serp object at the time, because GoogleScraper works incrementally.
+Streamline process, one serp object at the time, because googlescraper works incrementally.
 Furthermore we cannot accumulate all results and then process them, because it would be
 impossible to launch lang scrape jobs with millions of keywords.
 """

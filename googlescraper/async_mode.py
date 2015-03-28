@@ -2,14 +2,14 @@ import asyncio
 import aiohttp
 import datetime
 from urllib.parse import urlencode
-from GoogleScraper.parsing import get_parser_by_search_engine, parse_serp
-from GoogleScraper.http_mode import get_GET_params_for_search_engine, headers
-from GoogleScraper.scraping import get_base_search_url_by_search_engine
-from GoogleScraper.utils import get_some_words
-from GoogleScraper.config import Config
-from GoogleScraper.output_converter import store_serp_result
-from GoogleScraper.caching import cache_results
-from GoogleScraper.log import out
+from googlescraper.parsing import get_parser_by_search_engine, parse_serp
+from googlescraper.http_mode import get_GET_params_for_search_engine, headers
+from googlescraper.scraping import get_base_search_url_by_search_engine
+from googlescraper.utils import get_some_words
+from googlescraper.config import Config
+from googlescraper.output_converter import store_serp_result
+from googlescraper.caching import cache_results
+from googlescraper.log import out
 
 class AsyncHttpScrape():
     

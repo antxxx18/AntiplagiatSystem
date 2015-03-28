@@ -9,15 +9,15 @@ import re
 import logging
 import functools
 from sqlalchemy.orm.exc import NoResultFound
-from GoogleScraper.config import Config
-from GoogleScraper.database import SearchEngineResultsPage
-from GoogleScraper.parsing import parse_serp
-from GoogleScraper.log import out
-from GoogleScraper.output_converter import store_serp_result
+from googlescraper.config import Config
+from googlescraper.database import SearchEngineResultsPage
+from googlescraper.parsing import parse_serp
+from googlescraper.log import out
+from googlescraper.output_converter import store_serp_result
 
 
 """
-GoogleScraper is a complex application and thus searching is error prone. While developing,
+googlescraper is a complex application and thus searching is error prone. While developing,
 you may need to repeat the same searches several times and you might end up being banned by
 the search engine providers. This is why all searches are chached by default.
 
@@ -41,7 +41,7 @@ quite some keywords to scrape for. Then the previously parsed 1000 results are a
 stored in the database and shouldn't be added a second time.
 """
 
-logger = logging.getLogger('GoogleScraper')
+logger = logging.getLogger('googlescraper')
 
 ALLOWED_COMPRESSION_ALGORITHMS = ('gz', 'bz2')
 
@@ -55,7 +55,7 @@ class InvalidConfigurationFileException(Exception):
 
 class CompressedFile(object):
     """Read and write the data of a compressed file.
-    Used to cache files for GoogleScraper.s
+    Used to cache files for googlescraper.s
 
     Supported algorithms: gz, bz2
 

@@ -5,10 +5,10 @@ import os
 import pymysql
 import logging
 import re
-from GoogleScraper import database
+from googlescraper import database
 
 Proxy = namedtuple('Proxy', 'proto, host, port, username, password')
-logger = logging.getLogger('GoogleScraper')
+logger = logging.getLogger('googlescraper')
 
 def parse_proxy_file(fname):
     """Parses a proxy file
@@ -19,7 +19,7 @@ def parse_proxy_file(fname):
         socks4 23.212.45.13:80 username:password
         http 23.212.45.13:80
 
-        If username and password aren't provided, GoogleScraper assumes
+        If username and password aren't provided, googlescraper assumes
         that the proxy doesn't need auth credentials.
 
     Args:
