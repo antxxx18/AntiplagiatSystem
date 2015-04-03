@@ -1,7 +1,6 @@
 # -*- coding:utf-8 -*-
 from googlescraper.core import scrape_with_config
 from googlescraper.scraping import GoogleSearchError
-#from proxyparse import proxy
 import operator
 
 num_queries = 8
@@ -21,9 +20,33 @@ def to_str(keywords):
 
 def parse(keywords):
 
+    # Mayde fix problem with search results
+    config = {
+        'SCRAPING': {
+            'num_results_per_page': 1,
+            'use_own_ip': 'True',
+            'keywords': 'NONE',
+            'search_engines': 'bing',
+            'num_pages_for_keyword': 1,
+            'scrape_method': 'selenium',
+            'num_workers': 1,
+        },
+        'SELENIUM': {
+            'sel_browser': 'phantomjs',
+        },
+        'GLOBAL': {
+            'verbosity': 0,
+            'do_caching': 'False',
+        },
+    }
+
+    try:
+        search = scrape_with_config(config)
+    except GoogleSearchError as e:
+        print(e)
+
     str=to_str(keywords)
     # Make config fo scraping
-    # FIX threads number
     config = {
         'SCRAPING': {
             'num_results_per_page': 10,
@@ -73,30 +96,4 @@ def parse(keywords):
     for x in range(0, 5):
         print("%d. %s"%(i,sorted_x[x]))
         i += 1
-
-    # Mayde fix problem with search results
-    config = {
-        'SCRAPING': {
-            'num_results_per_page': 1,
-            'use_own_ip': 'True',
-            'keywords': 'NONE',
-            'search_engines': 'bing',
-            'num_pages_for_keyword': 1,
-            'scrape_method': 'selenium',
-            'num_workers': 1,
-        },
-        'SELENIUM': {
-            'sel_browser': 'phantomjs',
-        },
-        'GLOBAL': {
-            'verbosity': 0,
-            'do_caching': 'False',
-        },
-    }
-
-    try:
-        search = scrape_with_config(config)
-    except GoogleSearchError as e:
-        print(e)
-
     return
