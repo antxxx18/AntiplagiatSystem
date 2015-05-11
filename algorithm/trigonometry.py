@@ -1,10 +1,9 @@
-__author__ = 'Andriy'
-
 def module(vect):
     s = 0
     for el in vect:
         s += vect[el] ** 2
     return s ** 0.5
+
 
 def multi_cos(vect1, vect2):
     s = 0

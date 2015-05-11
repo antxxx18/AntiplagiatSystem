@@ -3,51 +3,80 @@
 
 from filesparse import text
 from datetime import datetime
-from searchengineparse.parse import parse
 from vector import create_vector
 import sys
+from algorithm import trigonometry
+import math
+import os
+import urllib.request
 
-# FIX
-num_words = 7
+
+class TextPair():
+
+    def idf_transform(self, sentence, vect, sentence_num):
+        return {word: math.log2(sentence_num / vect[word]) for word in sentence}
+
+    def __init__(self, trans_text1, trans_text2):
+        vector_similarity = trigonometry.multi_cos(trans_text1.vector, trans_text2.vector)
+        similar_sentence_number = 0
+        self.similar_sentence1 = []
+        self.similar_sentence2 = []
+        if vector_similarity > 0.5:
+            for (i, sentence1) in enumerate(trans_text1.normal_sentence_list):
+                for (j, sentence2) in enumerate(trans_text2.normal_sentence_list):
+                    if len(sentence1) > 2 and len(sentence2) > 2:
+                        idf_vector1 = self.idf_transform(sentence1, trans_text1.word_in_sentences_vector, len(trans_text1.sentence_list))
+                        idf_vector2 = self.idf_transform(sentence2, trans_text2.word_in_sentences_vector, len(trans_text2.sentence_list))
+                        sentence_similarity = trigonometry.multi_cos(idf_vector1, idf_vector2)
+                        if sentence_similarity > 0.6:
+                            similar_sentence_number += sentence_similarity
+                            self.similar_sentence1.append(trans_text1.sentence_list[i])
+                            self.similar_sentence2.append(trans_text2.sentence_list[j])
+        self.similarity = similar_sentence_number / len(trans_text1.sentence_list)
+
+
+def get_text_pairs(trans_text1, link_list):
+    textPairs = []
+    for url in link_list:
+        filename = write_page(url)
+        if filename:
+            t2 = text.Text(filename)
+            trans_text2 = create_vector.TransformText(t2.data, 0)
+            textPair = TextPair(trans_text1, trans_text2)
+            if not textPair.similar_sentence1:
+                break
+            textPairs.append(textPair)
+    return textPairs
+
+
+def write_page(url):
+    ext = os.path.splitext(url)[1]
+    if ext == '.txt' or ext == '.doc' or ext == '.docx' or ext == '.pdf':
+        filename = 'download' + ext
+    else:
+        filename = 'download.html'
+    try:
+        html_page = urllib.request.urlopen(url).read()
+        f = open(filename, 'wb')
+        f.write(html_page)
+    except UnicodeEncodeError:
+        filename = False
+    return filename
+
 
 startTime = datetime.now()
-t = text.Text(sys.argv[1])
-res = create_vector.transform_to_vector(t.data, 1)
-main_vector = res[0]
-query_line = res[1]
-print('Main vector size: ' + str(len(main_vector)))
-print(main_vector)
-print('Query list size: ' + str(len(query_line)))
-print(query_line)
-i = 0
-query = [[]]
-for word in query_line:
-    if i > num_words:
-        t = query[-1][1:]
-        t.append(word)
-        query.append(t)
-    else:
-        query[0].append(word)
-    i += 1
-parse(query)
+txt = text.Text(sys.argv[1])
+trans_txt = create_vector.TransformText(txt.data, 1)
+link_list = trans_txt.parse(num_words=7)
+textPairs = get_text_pairs(trans_txt, link_list)
+for (i, textPair) in enumerate(textPairs):
+    print('############')
+    print(link_list[i])
+    print('Similarity = ')
+    print(textPair.similarity)
+    print('------')
+    print(textPair.similar_sentence1)
+    print('------')
+    print(textPair.similar_sentence2)
+    print('############')
 print(datetime.now() - startTime)
-
-"""
-    max_coef = 0
-    list = dataBase.get_list_work_of_theme(arg2)
-    for id in list: #arg2 - id theme of work
-        if id != int(arg1):
-            #current_vect = vector.get_vect(id)
-            current_vect = dataBase.get_vect(id)
-            if current_vect == {}:
-                text = text.Text("/var/www/html" + dataBase.get_path(id))
-                #vector.set_vect(id, text)
-                dataBase.set_vect(id, text)
-                #current_vect = vector.get_vect(id)
-                current_vect = dataBase.get_vect(id)
-            cur_coef = trigonometry.multi_cos(main_vect, current_vect)
-            dataBase.set_cur_coef(int(arg1), id, cur_coef)
-            max_coef = max(max_coef, cur_coef)
-    dataBase.set_max_coef(int(arg1), max_coef)
-    dataBase.close()
-"""
